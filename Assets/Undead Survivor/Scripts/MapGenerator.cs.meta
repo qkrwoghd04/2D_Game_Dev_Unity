@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f86b6939fb49d8a478cbe1be969bee97
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - destructibleTilemap: {instanceID: 0}
+  - indestructibleTilemap: {instanceID: 0}
+  - destructibleTile: {fileID: 11400000, guid: e5030231fc9d5104e84368d560c048ae, type: 2}
+  - indestructibleTile: {fileID: 11400000, guid: 59e86c98bd16240429f5e097035eb998, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
