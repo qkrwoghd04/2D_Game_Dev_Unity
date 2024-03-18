@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 3998148599296018493}
   - component: {fileID: 798141633945578903}
   m_Layer: 0
-  m_Name: Enermy_melee
-  m_TagString: Enermy
+  m_Name: Enemy_melee
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
