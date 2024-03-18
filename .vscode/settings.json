@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "2D_Roguelike.sln"
+    "dotnet.defaultSolution": "2D_Game_Dev_Unity.sln"
 }
