@@ -5724,6 +5724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1c87e5f7aaf9e44b4172748ddb750f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameTime: 0
+  maxGameTime: 30
   pool: {fileID: 1412480397}
   player: {fileID: 1373561490}
 --- !u!4 &369416940
@@ -7526,7 +7528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 1054406007533492441, guid: 419cc58db8825f24a962985b5190cfe4, type: 3}
-  - {fileID: 4373530659636797559, guid: fbf0589d67b979f4e80884cb8ce8bbf2, type: 3}
+  - {fileID: 678821618242400198, guid: 65f444901ff3036459d99b85083c48fe, type: 3}
 --- !u!4 &1412480398
 Transform:
   m_ObjectHideFlags: 0

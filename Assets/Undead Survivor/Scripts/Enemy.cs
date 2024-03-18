@@ -1,23 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     public float speed = 2;
+    public float health;
+    public float Max_health = 1;
+    // public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
-
     bool isLive = true;
-
     public float detectionDistance = 0.5f; // 장애물 감지 거리
     public LayerMask obstacleLayer; // 장애물 레이어
-
     Rigidbody2D rigid;
     SpriteRenderer spriter;
-    // Start is called before the first frame update
+    // Animator anim;
+
+    // public void InitMelee(SpawnData data){
+    //     anim.runtimeAnimatorController = animCon[data.spriteType];
+    //     speed = data.speed;
+    //     Melee_Max_health = data.health + 1;
+    //     melee_health = data.health + 1;
+    // }
+    // public void InitRanged(SpawnData data){
+    //     anim.runtimeAnimatorController = animCon[data.spriteType];
+    //     speed = data.speed;
+    //     Ranged_Max_health = data.health;
+    //     Ranged_health = data.health;
+    // }
+
     void Awake() {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        // anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -52,5 +68,23 @@ public class Enemy : MonoBehaviour
 
     void OnEnable() {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        health = Max_health;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision) {
+        if(!collision.CompareTag("Bullet")) return;
+
+        health -= collision.GetComponent<Bullet>().damage;
+
+        if(health > 0){
+
+        }else{
+            Dead();
+        }
+    }
+
+    void Dead(){
+        gameObject.SetActive(false);
     }
 }

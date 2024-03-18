@@ -5,26 +5,53 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
-
-    float timer;
-    int noe;
+    // public SpawnData[] spawnData;
+    int level = 1;
+    float meleeTimer = 0f;
+    float rangedTimer = 0f;
 
     void Awake(){
         spawnPoint = GetComponentsInChildren<Transform>();
     }
    void Update(){
 
-        timer += Time.deltaTime;
+        level = Mathf.FloorToInt(GameManager.instance.gameTime / 30f) + 1;
 
-        if(timer > 2f && noe <= 10){
-            timer = 0;
-            Spawn();
+        meleeTimer += Time.deltaTime;
+        rangedTimer += Time.deltaTime;
+
+        if(level == 1){
+            if(meleeTimer > 2f){
+                SpawnMeleeEnemy();
+                meleeTimer = 0f; // 근접 적 타이머 재설정
+            }
+        } else if(level == 2){
+            if(meleeTimer > 2f){
+                SpawnMeleeEnemy();
+                meleeTimer = 0f; // 근접 적 타이머 재설정
+            }
+            if(rangedTimer > 4f){
+                SpawnRangedEnemy();
+                rangedTimer = 0f; // 원거리 적 타이머 재설정
+            }
         }
    }
 
-   void Spawn(){
-        GameObject enemy = GameManager.instance.pool.Get(1);
+   void SpawnMeleeEnemy(){
+        GameObject enemy = GameManager.instance.pool.Get(1); // 근접 적 생성
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        noe ++;
-   }
+    }
+
+    void SpawnRangedEnemy(){
+        GameObject enemy = GameManager.instance.pool.Get(2); // 원거리 적 생성
+        enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+    }
 }
+// [System.Serializable]
+// public class SpawnData{
+//     public int spriteType;
+//     public float spawnTime;
+//     public int health;
+//     public float speed;
+// }
+
