@@ -38,12 +38,12 @@ public class Spawner : MonoBehaviour
    }
 
    void SpawnMeleeEnemy(){
-        GameObject enemy = GameManager.instance.pool.Get(1); // 근접 적 생성
+        GameObject enemy = GameManager.instance.pool.Get(0); // 근접 적 생성
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
     }
 
     void SpawnRangedEnemy(){
-        GameObject enemy = GameManager.instance.pool.Get(2); // 원거리 적 생성
+        GameObject enemy = GameManager.instance.pool.Get(1); // 원거리 적 생성
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
     }
 }

@@ -168,6 +168,56 @@ Transform:
   - {fileID: 138568272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &77214593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77214594}
+  - component: {fileID: 77214595}
+  m_Layer: 3
+  m_Name: meleeAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &77214594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77214593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1373561488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &77214595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77214593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747a99e1d9192314486e4250cdba4666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  prefabId: 0
+  damage: 2
+  count: 5
+  speed: 1000
+  rotationDuration: 0.2
 --- !u!1 &138568271
 GameObject:
   m_ObjectHideFlags: 0
@@ -7296,8 +7346,8 @@ GameObject:
   - component: {fileID: 1373561491}
   - component: {fileID: 1373561492}
   m_Layer: 0
-  m_Name: melee
-  m_TagString: Untagged
+  m_Name: player
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7395,6 +7445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 753570408}
+  - {fileID: 77214594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &1373561489
@@ -7529,6 +7580,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 1054406007533492441, guid: 419cc58db8825f24a962985b5190cfe4, type: 3}
   - {fileID: 678821618242400198, guid: 65f444901ff3036459d99b85083c48fe, type: 3}
+  - {fileID: 7653945143523493341, guid: 00f8d38e6782a1a4781bcd6c2e252edf, type: 3}
 --- !u!4 &1412480398
 Transform:
   m_ObjectHideFlags: 0

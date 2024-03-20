@@ -38,4 +38,8 @@ public class PoolManager : MonoBehaviour
 
         return select;
     }
+    public void Return(int prefabId, GameObject obj)
+    {
+        obj.SetActive(false);
+    }
 }
