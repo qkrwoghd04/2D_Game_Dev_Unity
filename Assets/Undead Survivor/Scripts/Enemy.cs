@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public enum EnemyType { Melee, Ranged } // 적 유형 열거형 추가
+    public EnemyType enemyType;
     public float speed = 2;
     public float health;
-    public float Max_health = 1;
+    public float Max_health = 2;
     // public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
     bool isLive = true;
@@ -15,25 +17,10 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleLayer; // 장애물 레이어
     Rigidbody2D rigid;
     SpriteRenderer spriter;
-    // Animator anim;
-
-    // public void InitMelee(SpawnData data){
-    //     anim.runtimeAnimatorController = animCon[data.spriteType];
-    //     speed = data.speed;
-    //     Melee_Max_health = data.health + 1;
-    //     melee_health = data.health + 1;
-    // }
-    // public void InitRanged(SpawnData data){
-    //     anim.runtimeAnimatorController = animCon[data.spriteType];
-    //     speed = data.speed;
-    //     Ranged_Max_health = data.health;
-    //     Ranged_health = data.health;
-    // }
-
+    
     void Awake() {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
-        // anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -69,7 +56,13 @@ public class Enemy : MonoBehaviour
     void OnEnable() {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
-        health = Max_health;
+        if (enemyType == EnemyType.Melee) {
+            Max_health = 2;
+            health = Max_health; // 근접 적 체력
+        } else if (enemyType == EnemyType.Ranged) {
+            Max_health = 1;
+            health = Max_health; // 원거리 적 체력
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
@@ -77,9 +70,7 @@ public class Enemy : MonoBehaviour
 
         health -= collision.GetComponent<Bullet>().damage;
 
-        if(health > 0){
-
-        }else{
+        if(health == 0){
             Dead();
         }
     }

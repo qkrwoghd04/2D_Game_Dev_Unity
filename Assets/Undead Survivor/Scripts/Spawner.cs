@@ -39,19 +39,14 @@ public class Spawner : MonoBehaviour
 
    void SpawnMeleeEnemy(){
         GameObject enemy = GameManager.instance.pool.Get(0); // 근접 적 생성
+        enemy.GetComponent<Enemy>().enemyType = Enemy.EnemyType.Melee; // 적 유형 설정
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
     }
 
     void SpawnRangedEnemy(){
         GameObject enemy = GameManager.instance.pool.Get(1); // 원거리 적 생성
+        enemy.GetComponent<Enemy>().enemyType = Enemy.EnemyType.Ranged; // 적 유형 설정
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
     }
 }
-// [System.Serializable]
-// public class SpawnData{
-//     public int spriteType;
-//     public float spawnTime;
-//     public int health;
-//     public float speed;
-// }
 

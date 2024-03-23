@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
 {
     public Vector2 inputVec;
+    public int health;
     public float moveSpeed;
     Rigidbody2D rigid;
     SpriteRenderer sr;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
     // Start is called before the first frame update
     void Start()
     {
+        health = 30;
         moveSpeed = 2.5f;
     }
 

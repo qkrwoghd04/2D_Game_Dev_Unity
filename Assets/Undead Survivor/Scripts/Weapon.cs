@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
 {
     public int id;
     public int prefabId;
-    public float damage = 2;
+    public float damage;
     public int count = 5;
     public float speed = 1000f;
     public float rotationDuration = 0.2f;
@@ -23,12 +23,14 @@ public class Weapon : MonoBehaviour
         {
             lastMeleeAttackTime = Time.time; // 마지막 근접 공격 시간 업데이트
             prefabId = 2;
+            damage = 2;
             StartCoroutine(SpawnAndRotateBullets());
         }
         if (Input.GetMouseButtonDown(0) && Time.time - lastRangedAttackTime >= rangedAttackCooldown) // 왼쪽 마우스 버튼 클릭 감지 및 쿨다운 확인
         {
             lastRangedAttackTime = Time.time; // 마지막 원거리 공격 시간 업데이트
             prefabId = 3;
+            damage = 1;
             FireRangedAttack();
         }
     }
@@ -77,7 +79,7 @@ public class Weapon : MonoBehaviour
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         Debug.Log("Dir=" + dir);
-        bullet.GetComponent<Bullet>().Init(1, 0, dir);
+        bullet.GetComponent<Bullet>().Init(damage, 0, dir);
     }
 
 }
