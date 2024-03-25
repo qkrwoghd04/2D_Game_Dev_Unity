@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    void Start(){
+    public void GameStart(){
         health = maxHeatlh;
+        isLive = true;
     }
     void Update()
     {
