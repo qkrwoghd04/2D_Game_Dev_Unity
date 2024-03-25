@@ -6,8 +6,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public float gameTime;
+    [Header("# Game Control")]
     public float maxGameTime = 3 * 10f;
+    public float gameTime;
+    [Header("# Player Info")]
+    public int level;
+    public int kill;
     public PoolManager pool;// 플레이어 프리팹을 인스펙터에서 할당
     public Player player; // 맵 중심 위치를 나타내는 Transform, 인스펙터에서 할당
 
@@ -19,6 +23,7 @@ public class GameManager : MonoBehaviour
 
         if(gameTime > maxGameTime){
             gameTime = maxGameTime;
+            level ++;
         }
     }
 }

@@ -7,6 +7,8 @@ public class Weapon : MonoBehaviour
 {
     public int id;
     public int prefabId;
+    public enum AttackType { Melee, Ranged }
+    public AttackType attackType;
     public float damage;
     public int count = 5;
     public float speed = 1000f;
@@ -19,20 +21,29 @@ public class Weapon : MonoBehaviour
     private float lastRangedAttackTime = -0.5f;
     void Update()
     {
-       if (Input.GetMouseButtonDown(1) && Time.time - lastMeleeAttackTime >= meleeAttackCooldown) // 오른쪽 마우스 버튼 클릭 감지 및 쿨다운 확인
+
+        switch (attackType)
         {
-            lastMeleeAttackTime = Time.time; // 마지막 근접 공격 시간 업데이트
-            prefabId = 2;
-            damage = 2;
-            StartCoroutine(SpawnAndRotateBullets());
+            case AttackType.Melee:
+                if (Input.GetMouseButtonDown(1) && Time.time - lastMeleeAttackTime >= meleeAttackCooldown) // 오른쪽 마우스 버튼 클릭 감지 및 쿨다운 확인
+                {
+                    lastMeleeAttackTime = Time.time; // 마지막 근접 공격 시간 업데이트
+                    prefabId = 2;
+                    damage = 2;
+                    StartCoroutine(SpawnAndRotateBullets());
+                }
+                break;
+            case AttackType.Ranged:
+                if (Input.GetMouseButtonDown(0) && Time.time - lastRangedAttackTime >= rangedAttackCooldown) // 왼쪽 마우스 버튼 클릭 감지 및 쿨다운 확인
+                {
+                    lastRangedAttackTime = Time.time; // 마지막 원거리 공격 시간 업데이트
+                    prefabId = 3;
+                    damage = 1;
+                    FireRangedAttack();
+                }
+                break;
         }
-        if (Input.GetMouseButtonDown(0) && Time.time - lastRangedAttackTime >= rangedAttackCooldown) // 왼쪽 마우스 버튼 클릭 감지 및 쿨다운 확인
-        {
-            lastRangedAttackTime = Time.time; // 마지막 원거리 공격 시간 업데이트
-            prefabId = 3;
-            damage = 1;
-            FireRangedAttack();
-        }
+
     }
 
     IEnumerator SpawnAndRotateBullets()
@@ -62,7 +73,7 @@ public class Weapon : MonoBehaviour
         // 회전 종료 후 칼 반환 및 리스트 클리어
         foreach (GameObject bullet in spawnedBullets)
         {
-            bullet.transform.parent = null; 
+            bullet.transform.parent = null;
             GameManager.instance.pool.Return(prefabId, bullet); // 풀에 반환
         }
         spawnedBullets.Clear();
@@ -78,7 +89,6 @@ public class Weapon : MonoBehaviour
         Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-        Debug.Log("Dir=" + dir);
         bullet.GetComponent<Bullet>().Init(damage, 0, dir);
     }
 

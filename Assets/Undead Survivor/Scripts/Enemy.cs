@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleLayer; // 장애물 레이어
     Rigidbody2D rigid;
     SpriteRenderer spriter;
+
     
     void Awake() {
         rigid = GetComponent<Rigidbody2D>();
@@ -66,12 +67,13 @@ public class Enemy : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        if(!collision.CompareTag("Bullet")) return;
+        if(!collision.CompareTag("Bullet") || !isLive) return;
 
         health -= collision.GetComponent<Bullet>().damage;
-
-        if(health == 0){
+    
+        if(health <= 0){
             Dead();
+            GameManager.instance.kill++;
         }
     }
 
