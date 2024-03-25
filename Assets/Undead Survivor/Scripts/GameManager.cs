@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public int level;
     public int kill;
     public int health;
-    public int maxHeatlh = 30;
-    public PoolManager pool;// 플레이어 프리팹을 인스펙터에서 할당
+    public int maxHeatlh;
+    public PoolManager pool;
     public Player player; // 맵 중심 위치를 나타내는 Transform, 인스펙터에서 할당
 
     void Awake()
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameStart(){
+        maxHeatlh = 30;
         health = maxHeatlh;
         isLive = true;
     }

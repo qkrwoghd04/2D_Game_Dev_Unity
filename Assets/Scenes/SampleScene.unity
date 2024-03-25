@@ -19665,8 +19665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputVec: {x: 0, y: 0}
-  health: 0
   moveSpeed: 0
+  damageCooldown: 1
 --- !u!114 &1373561491
 MonoBehaviour:
   m_ObjectHideFlags: 0
