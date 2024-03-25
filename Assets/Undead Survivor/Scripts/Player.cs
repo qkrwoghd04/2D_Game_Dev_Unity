@@ -24,8 +24,16 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
         health = 30;
         moveSpeed = 2.5f;
     }
+    void Update(){
+        if(!GameManager.instance.isLive){
+            return;
+        }
+    }
 
     void FixedUpdate() {
+        if(!GameManager.instance.isLive){
+            return;
+        }
         // fixedDeltaTime : 물리 프레임 하나가 소비한 시간
         Vector2 nextVec = inputVec * moveSpeed * Time.fixedDeltaTime;
         // 위치 이동
@@ -36,11 +44,16 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
     }
 
     void LateUpdate() {
+        if(!GameManager.instance.isLive){
+            return;
+        }
         anim.SetFloat("Speed", inputVec.magnitude);
 
         if(inputVec.x != 0){
             sr.flipX = inputVec.x < 0;
         }
     }
+
+    
 }
 

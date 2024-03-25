@@ -21,7 +21,11 @@ public class Weapon : MonoBehaviour
     private float lastRangedAttackTime = -0.5f;
     void Update()
     {
-
+        if (!GameManager.instance.isLive)
+        {
+            return;
+        }
+        
         switch (attackType)
         {
             case AttackType.Melee:
