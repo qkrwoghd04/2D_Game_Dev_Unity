@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
     [Header("# Game Object")]
     public PoolManager pool;
     public Player player; // 맵 중심 위치를 나타내는 Transform, 인스펙터에서 할당
-    public GameObject uiResult;
+    public Result uiResult;
+    public GameObject enemyCleaner;
 
     void Awake()
     {
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     public void GameStart(){
         maxHeatlh = 30;
         health = maxHeatlh;
-        isLive = true;
+        Resume();
     }
 
     public void GameRetry(){
@@ -42,10 +43,25 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator GameOverRoutine(){
         isLive = false;
-        yield return new WaitForSeconds(0.5f);
-        uiResult.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        uiResult.gameObject.SetActive(true);
+        uiResult.Lose();
         Stop();
     }
+
+    public void GameVictory(){
+        StartCoroutine(GameVictoryRoutine());
+    }
+    IEnumerator GameVictoryRoutine(){
+        isLive = false;
+        enemyCleaner.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        uiResult.gameObject.SetActive(true);
+        uiResult.Win();
+        
+        Stop();
+    }
+
     void Update()
     {
         if(!isLive){
@@ -58,12 +74,13 @@ public class GameManager : MonoBehaviour
         {
             level++; 
             gameTime = 0f; 
+            GameVictory();
         }
         
     }
     public void Stop(){
         isLive = false;
-        Time.timeScale = 0; //원래는 1
+        Time.timeScale = 0;
     }
     public void Resume(){
         isLive = true;
