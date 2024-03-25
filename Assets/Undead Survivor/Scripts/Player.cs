@@ -83,7 +83,7 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
                     transform.GetChild(i).gameObject.SetActive(false);
                 }
                 anim.SetTrigger("Dead");
-                moveSpeed = 0;
+                GameManager.instance.GameOver();
             }
         }
     }

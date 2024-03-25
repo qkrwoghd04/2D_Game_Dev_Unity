@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class GameManager : MonoBehaviour
     public int kill;
     public int health;
     public int maxHeatlh;
+
+    [Header("# Game Object")]
     public PoolManager pool;
     public Player player; // 맵 중심 위치를 나타내는 Transform, 인스펙터에서 할당
+    public GameObject uiResult;
 
     void Awake()
     {
@@ -27,6 +31,20 @@ public class GameManager : MonoBehaviour
         maxHeatlh = 30;
         health = maxHeatlh;
         isLive = true;
+    }
+
+    public void GameRetry(){
+        SceneManager.LoadScene(0);
+    }
+
+    public void GameOver(){
+        StartCoroutine(GameOverRoutine());
+    }
+    IEnumerator GameOverRoutine(){
+        isLive = false;
+        yield return new WaitForSeconds(0.5f);
+        uiResult.SetActive(true);
+        Stop();
     }
     void Update()
     {
