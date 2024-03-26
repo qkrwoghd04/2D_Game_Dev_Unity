@@ -71,7 +71,6 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
         }
         if (other.gameObject.CompareTag("Enemy") && Time.time - lastDamageTime > damageCooldown)
         {
-            Debug.Log("Hit");
             GameManager.instance.health -= 1; // 매번 충돌 시 1의 데미지를 입습니다.
             lastDamageTime = Time.time; // 마지막 데미지 시간을 업데이트합니다.
             

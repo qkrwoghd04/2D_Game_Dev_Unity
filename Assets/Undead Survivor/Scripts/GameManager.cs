@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,11 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [Header("# Game Control")]
     public bool isLive;
-    public float maxGameTime = 3 * 10f;
+    public float maxGameTime;
     public float gameTime;
     [Header("# Player Info")]
-    public int level;
-    public int kill;
+    public int level = 0;
+    public int score;
     public int health;
     public int maxHeatlh;
 
@@ -22,26 +23,35 @@ public class GameManager : MonoBehaviour
     public Player player; // 맵 중심 위치를 나타내는 Transform, 인스펙터에서 할당
     public Result uiResult;
     public GameObject enemyCleaner;
+    public Spawner spawner;
 
     void Awake()
     {
         instance = this;
     }
 
-    public void GameStart(){
+    public void GameStart()
+    {
         maxHeatlh = 30;
         health = maxHeatlh;
         Resume();
     }
+    public void AddScore(int points)
+    {
+        score += points;
+    }
 
-    public void GameRetry(){
+    public void GameRetry()
+    {
         SceneManager.LoadScene(0);
     }
 
-    public void GameOver(){
+    public void GameOver()
+    {
         StartCoroutine(GameOverRoutine());
     }
-    IEnumerator GameOverRoutine(){
+    IEnumerator GameOverRoutine()
+    {
         isLive = false;
         yield return new WaitForSeconds(1f);
         uiResult.gameObject.SetActive(true);
@@ -49,22 +59,37 @@ public class GameManager : MonoBehaviour
         Stop();
     }
 
-    public void GameVictory(){
+    public void GameVictory()
+    {
         StartCoroutine(GameVictoryRoutine());
     }
-    IEnumerator GameVictoryRoutine(){
+    IEnumerator GameVictoryRoutine()
+    {
         isLive = false;
-        enemyCleaner.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        uiResult.gameObject.SetActive(true);
-        uiResult.Win();
-        
-        Stop();
+        if (level == 1)
+        {
+            Debug.Log("Level:" + level);
+            enemyCleaner.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            // 맵을 재배치합니다.
+            FindObjectOfType<MapGenerator>().RegenerateMap();
+            Resume();
+        }
+        else if (level == 2)
+        {
+            Debug.Log("Level:" + level);
+            enemyCleaner.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            uiResult.gameObject.SetActive(true);
+            uiResult.Win();
+            Stop();
+        }
     }
 
     void Update()
     {
-        if(!isLive){
+        if (!isLive)
+        {
             return;
         }
         gameTime += Time.deltaTime;
@@ -72,17 +97,19 @@ public class GameManager : MonoBehaviour
         // 30초가 경과했을 때의 조건 검사
         if (gameTime >= 30f)
         {
-            level++; 
-            gameTime = 0f; 
+            level++;
+            gameTime = 0f;
             GameVictory();
         }
-        
+
     }
-    public void Stop(){
+    public void Stop()
+    {
         isLive = false;
         Time.timeScale = 0;
     }
-    public void Resume(){
+    public void Resume()
+    {
         isLive = true;
         Time.timeScale = 1;
     }

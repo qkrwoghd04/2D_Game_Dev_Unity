@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType{Level, Kill, Time, Score, Health}
+    public enum InfoType{Level, Score, Time, Health}
     public InfoType type;
 
     Text myText;
@@ -22,8 +23,8 @@ public class HUD : MonoBehaviour
                 myText.text = string.Format("Level. {0:F0}",GameManager.instance.level);
                 break;
 
-            case InfoType.Kill:
-                myText.text = string.Format("{0:F0}",GameManager.instance.kill);
+            case InfoType.Score:
+                myText.text = string.Format("{0:F0}",GameManager.instance.score);
                 break;
 
             case InfoType.Time:
@@ -33,9 +34,7 @@ public class HUD : MonoBehaviour
                 myText.text = string.Format("{0:D2}:{1:D2}", min, sec);
                 
                 break;
-            case InfoType.Score:
-
-                break;
+    
             case InfoType.Health:
                 mySlider.value = GameManager.instance.health;
                 break;

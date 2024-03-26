@@ -21,11 +21,17 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         GenerateMap();
-        
-    }
-    
 
-    void GenerateMap()
+    }
+    public void RegenerateMap()
+    {
+        destructibleOtc.ClearAllTiles();
+        indestructibleOtc.ClearAllTiles();
+        GenerateMap();
+    }
+
+
+    public void GenerateMap()
     {
         // 초기 장애물 위치 셋을 초기화
         occupiedPositions.Clear();

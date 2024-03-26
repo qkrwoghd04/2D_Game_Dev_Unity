@@ -5,8 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
-    // public SpawnData[] spawnData;
-    int level = 1;
+    private bool called = false; 
     float meleeTimer = 0f;
     float rangedTimer = 0f;
 
@@ -14,19 +13,47 @@ public class Spawner : MonoBehaviour
     {
         spawnPoint = GetComponentsInChildren<Transform>();
     }
+    void Start()
+    {
+        Initialized();
+    }
+    public void Initialized(){
+        // melee enemy 10마리 배치
+        // 레벨 0에서 근접 적 10마리 배치
+        if (GameManager.instance.level == 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                SpawnMeleeEnemy();
+            }
+        }
+    }
     void Update()
     {
-        if (!GameManager.instance.isLive)
+        if (!GameManager.instance.isLive || GameManager.instance.score == 0) //score 가 0 == 죽은 enemy x
         {
             return;
         }
-
-        level = Mathf.FloorToInt(GameManager.instance.gameTime / 30f) + 1;
+        
+        if (GameManager.instance.level == 1 && !called)
+        {
+            Debug.Log("Called");
+            GameManager.instance.pool.ResetAllPools();
+            for (int i = 0; i < 10; i++)
+            {
+                SpawnMeleeEnemy();
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                SpawnRangedEnemy();
+            }
+            called = true;
+        }
 
         meleeTimer += Time.deltaTime;
         rangedTimer += Time.deltaTime;
 
-        if (level == 1)
+        if (GameManager.instance.level == 0)
         {
             if (meleeTimer > 2f)
             {
@@ -34,7 +61,7 @@ public class Spawner : MonoBehaviour
                 meleeTimer = 0f; // 근접 적 타이머 재설정
             }
         }
-        else if (level == 2)
+        else if (GameManager.instance.level == 1)
         {
             if (meleeTimer > 2f)
             {
@@ -62,5 +89,6 @@ public class Spawner : MonoBehaviour
         enemy.GetComponent<Enemy>().enemyType = Enemy.EnemyType.Ranged; // 적 유형 설정
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
     }
+
 }
 
