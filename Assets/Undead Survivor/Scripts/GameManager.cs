@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
         maxHeatlh = 30;
         health = maxHeatlh;
         Resume();
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
     public void AddScore(int points)
     {
@@ -57,6 +60,8 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     public void GameVictory()
@@ -72,8 +77,11 @@ public class GameManager : MonoBehaviour
             enemyCleaner.SetActive(true);
             yield return new WaitForSeconds(2f);
             // 맵을 재배치합니다.
+            health = maxHeatlh;
             FindObjectOfType<MapGenerator>().RegenerateMap();
             Resume();
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
         }
         else if (level == 2)
         {
@@ -83,6 +91,8 @@ public class GameManager : MonoBehaviour
             uiResult.gameObject.SetActive(true);
             uiResult.Win();
             Stop();
+            AudioManager.instance.PlayBgm(false);
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
         }
     }
 

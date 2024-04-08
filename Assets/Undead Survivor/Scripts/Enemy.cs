@@ -88,10 +88,12 @@ public class Enemy : MonoBehaviour
         if (!collision.CompareTag("Bullet") || !isLive) return;
 
         health -= collision.GetComponent<Bullet>().damage;
+         AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
 
         if (health <= 0)
         {
             Dead();
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
             if (enemyType == EnemyType.Melee)
             {
                 GameManager.instance.AddScore(10);

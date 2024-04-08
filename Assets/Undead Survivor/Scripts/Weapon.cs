@@ -62,6 +62,8 @@ public class Weapon : MonoBehaviour
             bulletTransform.localRotation = Quaternion.Euler(Vector3.forward * 360 * i / count); // 로컬 회전 적용
             bulletTransform.Translate(bulletTransform.up * 1.5f, Space.World);
             bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero);
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Melee);
             spawnedBullets.Add(bullet); // 생성된 칼 추적
         }
 
@@ -94,6 +96,8 @@ public class Weapon : MonoBehaviour
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         bullet.GetComponent<Bullet>().Init(damage, 0, dir);
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Range);
     }
 
 }
