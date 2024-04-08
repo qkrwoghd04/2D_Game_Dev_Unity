@@ -46,7 +46,6 @@ public class PoolManager : MonoBehaviour
     }
     public void ResetAllPools()
     {
-        Debug.Log("Called");
         // 모든 풀을 순회합니다.
         foreach (List<GameObject> pool in pools)
         {
@@ -58,6 +57,7 @@ public class PoolManager : MonoBehaviour
                 obj.SetActive(false);
             }
         }
+
     }
 
     public void Return(int prefabId, GameObject obj)
