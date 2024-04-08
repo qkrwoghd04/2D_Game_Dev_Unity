@@ -40,7 +40,8 @@ public class PoolManager : MonoBehaviour
             select = Instantiate(prefabs[index], transform);
             pools[index].Add(select);
         }
-        // ... 못 찾으면 새롭게 생성해서 select 변수에 할당
+        
+
 
         return select;
     }
@@ -52,17 +53,14 @@ public class PoolManager : MonoBehaviour
             // 해당 풀의 모든 오브젝트를 순회합니다.
             foreach (GameObject obj in pool)
             {
-                Debug.Log("pool:"+ obj);
-                // 오브젝트를 비활성화합니다.
                 obj.SetActive(false);
             }
         }
-
     }
+
 
     public void Return(int prefabId, GameObject obj)
     {
         obj.SetActive(false);
     }
-
 }

@@ -10,15 +10,18 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
     public float moveSpeed;
     public float damageCooldown = 1f; // 플레이어가 데미지를 입을 수 있는 최소 시간 간격입니다.
     private float lastDamageTime = -1f; // 마지막으로 데미지를 입은 시간을 추적합니다.
+    private Vector3 startPosition;
     Rigidbody2D rigid;
     SpriteRenderer sr;
     Animator anim;
+    
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        startPosition = transform.position;
     }
     // Start is called before the first frame update
     void Start()
@@ -61,6 +64,11 @@ public class Player : MonoBehaviour //기본적으로 MonoBehaviour를 상속함
         {
             sr.flipX = inputVec.x < 0;
         }
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = startPosition;
     }
 
      void OnCollisionStay2D(Collision2D other)

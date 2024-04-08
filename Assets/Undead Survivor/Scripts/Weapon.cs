@@ -13,19 +13,20 @@ public class Weapon : MonoBehaviour
     public int count = 5;
     public float speed = 1000f;
     public float rotationDuration = 0.2f;
-
     private List<GameObject> spawnedBullets = new List<GameObject>(); // 생성된 칼들을 추적
     private float meleeAttackCooldown = 2.0f;
     private float rangedAttackCooldown = 0.5f;
     private float lastMeleeAttackTime = -2.0f;
     private float lastRangedAttackTime = -0.5f;
+    public CoolTime meleeCoolTimeUI;
+    public CoolTime rangedCoolTimeUI;
     void Update()
     {
         if (!GameManager.instance.isLive)
         {
             return;
         }
-        
+
         switch (attackType)
         {
             case AttackType.Melee:
@@ -35,6 +36,7 @@ public class Weapon : MonoBehaviour
                     prefabId = 2;
                     damage = 2;
                     StartCoroutine(SpawnAndRotateBullets());
+                    meleeCoolTimeUI.StartCoolTime(meleeAttackCooldown);
                 }
                 break;
             case AttackType.Ranged:
@@ -44,6 +46,7 @@ public class Weapon : MonoBehaviour
                     prefabId = 3;
                     damage = 1;
                     FireRangedAttack();
+                    rangedCoolTimeUI.StartCoolTime(rangedAttackCooldown);
                 }
                 break;
         }

@@ -109,4 +109,20 @@ public class Enemy : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void ResetEnemy()
+    {
+        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        if (enemyType == EnemyType.Melee)
+        {
+            Max_health = 2;
+            health = Max_health; // 근접 적 체력
+        }
+        else if (enemyType == EnemyType.Ranged)
+        {
+            Max_health = 1;
+            health = Max_health; // 원거리 적 체력
+        }
+    }
 }

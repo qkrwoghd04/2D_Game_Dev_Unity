@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
-    private bool called = false; 
+    private bool called = false;
     float meleeTimer = 0f;
     float rangedTimer = 0f;
 
@@ -17,7 +17,8 @@ public class Spawner : MonoBehaviour
     {
         Initialized();
     }
-    public void Initialized(){
+    public void Initialized()
+    {
         // melee enemy 10마리 배치
         // 레벨 0에서 근접 적 10마리 배치
         if (GameManager.instance.level == 0)
@@ -34,7 +35,7 @@ public class Spawner : MonoBehaviour
         {
             return;
         }
-        
+
         if (GameManager.instance.level == 1 && !called)
         {
             Debug.Log("Called");
@@ -74,6 +75,17 @@ public class Spawner : MonoBehaviour
                 rangedTimer = 0f; // 원거리 적 타이머 재설정
             }
         }
+    }
+
+    public void ResetSpawner()
+    {
+        called = false;
+
+        // 기존에 생성된 몬스터들을 비활성화 또는 제거
+        GameManager.instance.pool.ResetAllPools();
+
+        // 초기 몬스터 생성 로직을 여기에 추가
+        Initialized();
     }
 
     void SpawnMeleeEnemy()

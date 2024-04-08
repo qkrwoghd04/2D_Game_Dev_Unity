@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public float gameTime;
     public Text rankScoreCurrent; // Inspector에서 할당  
     public GameObject gameRanking;
+    public Text[] rankTexts; // Inspector에서 할당
 
     [Header("# Player Info")]
     public int level = 0;
@@ -53,19 +54,9 @@ public class GameManager : MonoBehaviour
     public void GameRetry()
     {
         ResetGame();
-    }
-
-    public void GameRestart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        health = maxHeatlh;
-        isLive = true;
-        score = 0;
-        level = 0;
-        gameTime = 0f;
-
-        AudioManager.instance.PlayBgm(true);
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        spawner.ResetSpawner();
+        player.ResetPosition();
+        Resume();
     }
 
     public void GameOver()
@@ -97,9 +88,7 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(false); // 결과 패널 비활성화
         gameRanking.SetActive(false); // 랭킹 패널 비활성화
 
-        pool.ResetAllPools(); // 오브젝트 풀 초기화 (PoolManager 스크립트에 해당 메서드 구현 필요)
-        
-
+        pool.ResetAllPools();
         // 기타 게임 컴포넌트 초기화
         // 예: 타이머 재설정, 점수판 초기화 등
 
@@ -136,6 +125,7 @@ public class GameManager : MonoBehaviour
             uiResult.gameObject.SetActive(true);
             uiResult.Win();
             ShowRanking(); // 랭킹 표시 추가
+            gameRanking.SetActive(true);
             Stop();
             AudioManager.instance.PlayBgm(false);
             AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
@@ -191,49 +181,47 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // 게임 시간을 재개
     }
 
-
-    void ScoreSet(int currentScore)
+    void ShowRanking()
     {
-        PlayerPrefs.SetInt("CurrentPlayerScore", currentScore);
-
-        int tmpScore = 0;
-
+        // 랭킹 정보를 불러와서 저장
+        int[] bestScores = new int[5];
         for (int i = 0; i < 5; i++)
         {
-            bestScore[i] = PlayerPrefs.GetInt(i + "BestScore");
+            bestScores[i] = PlayerPrefs.GetInt("BestScore" + i, 0);
+        }
 
-            while (bestScore[i] < currentScore)
+        // 현재 점수가 베스트 스코어에 들어갈 자리를 찾아 업데이트
+        for (int i = 4; i >= 0; i--)
+        {
+            if (score > bestScores[i])
             {
-                tmpScore = bestScore[i];
-                bestScore[i] = currentScore;
-
-                PlayerPrefs.SetInt(i + "BestScore", currentScore);
-
-                currentScore = tmpScore;
+                if (i < 4)
+                {
+                    bestScores[i + 1] = bestScores[i];
+                }
+                bestScores[i] = score;
+            }
+            else
+            {
+                break;
             }
         }
 
+        // 업데이트된 베스트 스코어를 다시 저장
         for (int i = 0; i < 5; i++)
         {
-            PlayerPrefs.SetInt(i + "BestScore", bestScore[i]);
+            PlayerPrefs.SetInt("BestScore" + i, bestScores[i]);
+            // UI에 베스트 스코어 표시 업데이트
+            rankTexts[i].text = (i + 1) + ". " + bestScores[i];
         }
     }
-
-    public void ShowRanking()
+    public void ExitGame()
     {
-
-        int currentPlayerScore = score; // 현재 플레이어의 점수
-        ScoreSet(currentPlayerScore); // 점수 저장 및 랭킹 갱신
-
-        // UI 텍스트에 현재 점수와 베스트 점수 표시
-        string rankingText = "Current Score: " + currentPlayerScore + "\nBest Scores:\n";
-        for (int i = 0; i < 5; i++)
-        {
-            int bestScore = PlayerPrefs.GetInt(i + "BestScore", 0);
-            rankingText += (i + 1) + ": " + bestScore + "\n";
-        }
-        gameRanking.SetActive(true);
-        rankScoreCurrent.text = string.Format("Score. {0:F0}", score);
-        Debug.Log(rankingText);
+        Application.Quit();
+#if UNITY_EDITOR
+        // 에디터에서 실행 중이라면 에디터 플레이 모드 종료
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
+
 }
